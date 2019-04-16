@@ -3,11 +3,11 @@ entries:
   springboot:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-16T15:21:37.4224843+07:00
+    created: 2019-04-16T18:57:31.5639514+07:00
     description: A Helm chart for deploy java spring boot
-    digest: 4429a655ec4d922a1a267cb4040b633fcdd05619b029d20b9f2fcf4a8fe93242
+    digest: 507e6bb5913ea472e8ad97d4e186fb48f6868ecf8a2ea0d76aead19662fd432b
     name: springboot
     urls:
     - https://afifzi.github.io/helm-repo/springboot-0.1.9.tgz
     version: 0.1.9
-generated: 2019-04-16T15:21:37.4219865+07:00
+generated: 2019-04-16T18:57:31.5629748+07:00
