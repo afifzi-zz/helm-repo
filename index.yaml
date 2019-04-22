@@ -3,7 +3,7 @@ entries:
   springboot:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-22T21:06:19.3306626+07:00
+    created: 2019-04-22T22:16:35.3104192+07:00
     description: A Helm chart for deploy java spring boot
     digest: bf08d5fed1c5f03115cfa553d5b99289f3fd0891a43073f1d3efa4afa1a44832
     name: springboot
@@ -13,11 +13,11 @@ entries:
   vault:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-22T21:06:19.3316351+07:00
+    created: 2019-04-22T22:16:35.3104192+07:00
     description: A Helm chart for vault deployment
-    digest: 2b38e7646af92e7899632ee1c78ec69428b85105ad74bc161be2f19e719ea2d1
+    digest: 3dcfda389e260ca9f3c99dec41ba416c0382f9b0381851aa7f91a8633a149694
     name: vault
     urls:
     - https://afifzi.github.io/helm-repo/vault-0.1.0.tgz
     version: 0.1.0
-generated: 2019-04-22T21:06:19.3287078+07:00
+generated: 2019-04-22T22:16:35.3084684+07:00
