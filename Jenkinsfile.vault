@@ -1,0 +1,76 @@
+def helmRepo = "https://m2c-team.github.io/helm-repository/"
+
+def incrementVersion(ver) {
+  newVer =  ver.split('\\.')
+  newVer[-1] = newVer[-1].toInteger() + 1
+  return newVer.join('.')
+}
+
+// this should be refactored into something that can be used across charts
+// for now, copying/pasting from springboot one
+// but refactoring everything to use $chartName variable
+def chartName = 'vault'
+
+def chartFile = "${chartName}/Chart.yaml"
+
+pipeline {
+  agent {
+    kubernetes {
+        label 'slave'
+        defaultContainer 'jnlp'
+        yamlFile "KubernetesPod.yaml"
+    }
+  }
+  stages {
+    stage("Initialize Git") {
+      steps {
+        container('git') {
+          sh "git config --global user.name build-gdn"
+          sh "git config --global user.email jenkins@gdn-commerce.com"
+          sh "mkdir -p ~/.ssh"
+          sh "ssh-keyscan github.com >> ~/.ssh/known_hosts"
+        }
+      }
+    }
+    stage("Increment Chart Version") {
+      steps {
+        container('git') {
+          script {
+            chart = readYaml file: chartFile
+            newVersion = incrementVersion(chart.version)
+            chart.version = newVersion
+          }
+          sh "rm $chartFile"
+          script {
+            writeYaml file: chartFile, data: chart
+          }
+          sh "git commit -m 'Increment ${chartName} chart version' $chartFile"
+          sshagent(['github-build-gdn']) {
+            sh "git push origin HEAD:master"
+          }
+        }
+      }
+    }
+    stage("Update helm repo") {
+      steps {
+        container('helm') {
+          sh "helm init"
+          sh "helm package ${chartName}/"
+        }
+        container('git') {
+          sh "git checkout gh-pages"
+        }
+        container('helm') {
+          sh "helm repo index . --url $helmRepo"
+        }
+        container('git') {
+          sh "git add index.yaml *.tgz"
+          sh 'git commit -m "Update helm repo by jenkins - ${chartName}"'
+          sshagent(['github-build-gdn']) {
+            sh "git push origin gh-pages"
+          }
+        }
+      }
+    }
+  }
+}

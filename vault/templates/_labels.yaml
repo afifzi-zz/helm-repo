@@ -1,0 +1,6 @@
+{{- define "vault.labels" }}
+  labels:
+    app: {{ .Release.Name }}
+    release: {{ .Release.Name }}-{{ .Values.image.tag }}
+    heritage: {{ .Release.Service }}
+{{- end }}
